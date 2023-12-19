@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Link, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import React from "react";
+import InputMask from 'react-input-mask';
 
 enum Sex {
   Man = 'man',
@@ -136,7 +137,9 @@ export default function App() {
                   <form method="POST" onSubmit={handleSubmit(onSubmit)}>
                     <label className="mainLabel">
                       <span className="mainLabel__text">Номер телефона</span>
-                      <input
+                      <InputMask
+                        mask="+7 (999) 999-99-99"
+                        maskChar=" "
                         className="mainLabel__input disabled"
                         type="text"
                         placeholder="+7 (900) 000-00-00"
@@ -147,10 +150,6 @@ export default function App() {
                             message: "Неверный формат номера телефона",
                           },
                         })}
-                        onChange={(e) => {
-                          const { value } = e.target;
-                          e.target.value = formatPhoneNumber(value);
-                        }}
                       />
                       {errors?.phone &&
                         <span
