@@ -63,12 +63,6 @@ export default function App() {
     setCharCount(text.length);
   };
 
-  const formatPhoneNumber = (value: string) => {
-    const numericValue = value.replace(/\D/g, '');
-    const formattedValue = `+7 (${numericValue.slice(1, 4)}) ${numericValue.slice(4, 7)}-${numericValue.slice(7, 9)}-${numericValue.slice(9, 11)}`;
-    return formattedValue;
-  };
-
   const mockResponse = new Response(JSON.stringify({ status: "ok" }), {
     status: 200,
     headers: {
