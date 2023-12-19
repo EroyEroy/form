@@ -17,8 +17,8 @@ interface FormData {
   sername: string;
   sex: Sex;
   advatages: string[];
-  checkboxGroup: number[];
-  radioGroup: number;
+  checkboxGroup?: number[];
+  radioGroup?: number;
   about: string;
 }
 
@@ -37,24 +37,27 @@ export default function App() {
   const [charCount, setCharCount] = useState<number>(0);
   const navigate = useNavigate();
   const popup = useRef<null | HTMLDivElement>(null);
+  const [data, setData] = useState<FormData>();
 
   const onSubmit = (data: FormData) => {
     if (step === 0) {
       navigate("/form/steps");
     }
 
-    if (step === 3 && data.checkboxGroup && data.radioGroup) {
-      data.checkboxGroup = data.checkboxGroup.map((isChecked, index) =>
-        isChecked ? index + 1 : null
-      ).filter((value) => value !== null) as number[];
-      data.radioGroup = Number(data.radioGroup);
+    if (step === 3) {
+      if (data.checkboxGroup && data.radioGroup) {
+        data.checkboxGroup = data.checkboxGroup.map((isChecked, index) =>
+          isChecked ? index + 1 : null
+        ).filter((value) => value !== null) as number[];
+        data.radioGroup = Number(data.radioGroup);
+      }
       setTimeout(() => {
         fetchAPI(data);
       }, 1000);
       return;
     }
     setStep(prev => prev + 1);
-
+    setData(data);
     console.log(data);
   };
 
@@ -134,6 +137,7 @@ export default function App() {
                       <InputMask
                         mask="+7 (999) 999-99-99"
                         maskChar=" "
+                        defaultValue={data?.phone || ''}
                         className="mainLabel__input disabled"
                         type="text"
                         placeholder="+7 (900) 000-00-00"
